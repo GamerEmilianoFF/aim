@@ -1,7 +1,4 @@
--- Gui to Lua
--- Version: 3.2
 
--- Instances:
 
 local ScreenGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
@@ -10,6 +7,7 @@ local TextLabel = Instance.new("TextLabel")
 local TextButton = Instance.new("TextButton")
 local TextButton_2 = Instance.new("TextButton")
 local TextLabel_2 = Instance.new("TextLabel")
+
 
 --Properties:
 
@@ -34,7 +32,7 @@ TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.BackgroundTransparency = 1.000
 TextLabel.Size = UDim2.new(1.00234735, 0, 1.08253634, 0)
 TextLabel.Font = Enum.Font.SourceSansSemibold
-TextLabel.Text = "Arceus | Aimbot"
+TextLabel.Text = "Trip Hub | Lock "
 TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.TextSize = 16.000
 
@@ -66,9 +64,9 @@ TextLabel_2.BackgroundTransparency = 1.000
 TextLabel_2.Position = UDim2.new(1.54999995, 0, 0, 0)
 TextLabel_2.Size = UDim2.new(17.7999992, 0, 1, 0)
 TextLabel_2.Font = Enum.Font.SourceSansSemibold
-TextLabel_2.Text = "Aimbot"
+TextLabel_2.Text = "Lock"
 TextLabel_2.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel_2.TextSize = 16.000
+TextLabel_2.TextSize = 25.000
 TextLabel_2.TextWrapped = true
 TextLabel_2.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -150,9 +148,9 @@ local function CIXXD_fake_script() -- TextButton_2.LocalScript
 	end
 	
 	game:GetService("RunService").RenderStepped:Connect(function()
-		local closest = getClosestPlayerToCursor("Head")
-		if state and closest and closest.Character:FindFirstChild("Head") then
-			lookAt(Cam.CFrame.p, closest.Character:FindFirstChild("Head").Position)
+		local closest = getClosestPlayerToCursor("UpperTorso")
+		if state and closest and closest.Character:FindFirstChild("UpperTorso") then
+			lookAt(Cam.CFrame.p, closest.Character:FindFirstChild("UpperTorso").Position)
 		end
 	end)
 end
