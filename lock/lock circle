@@ -151,55 +151,77 @@ end)
 
 
 
-local closevenyx = Instance.new("ScreenGui")
+
+
+
+
+
+
+
+--toggle pro
+
+local ScreenGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
-local TextButton = Instance.new("TextButton")
 local UICorner = Instance.new("UICorner")
+local toggle = Instance.new("TextButton")
 local UICorner_2 = Instance.new("UICorner")
- 
-closevenyx.Name = "closevenyx"
-closevenyx.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-closevenyx.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-closevenyx.ResetOnSpawn = false 
- 
- 
-Frame.Parent = closevenyx
-Frame.BackgroundColor3 = Color3.fromRGB(155, 255, 179)
-Frame.Position = UDim2.new(0.40278815, 0, 0.444857597, 0)
-Frame.Size = UDim2.new(0, 174, 0, 50)
+
+--Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+Frame.Position = UDim2.new(0.583586633, 0, 0.14094843, 0)
+Frame.Size = UDim2.new(0, 234, 0, 118)
 Frame.Active = true
 Frame.Draggable = true
- 
-TextButton.Parent = Frame
-TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextButton.Position = UDim2.new(0.193775862, 0, 0.0497869886, 0)
-TextButton.Size = UDim2.new(0, 106, 0, 44)
-TextButton.Font = Enum.Font.SourceSans
-TextButton.Text = "Lock"
-TextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
-TextButton.TextScaled = true
-TextButton.TextSize = 14.000
-TextButton.TextWrapped = true
- 
+
 UICorner.CornerRadius = UDim.new(0, 13)
-UICorner.Parent = TextButton
- 
+UICorner.Parent = Frame
+
+toggle.Name = "toggle"
+toggle.Parent = Frame
+toggle.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+toggle.Position = UDim2.new(0.111171618, 0, 0.231031209, 0)
+toggle.Size = UDim2.new(0, 180, 0, 63)
+toggle.Font = Enum.Font.SourceSans
+toggle.Text = "toggle"
+toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggle.TextScaled = true
+toggle.TextSize = 14.000
+toggle.TextWrapped = true
+
 UICorner_2.CornerRadius = UDim.new(0, 13)
-UICorner_2.Parent = Frame
- 
+UICorner_2.Parent = toggle
+
 -- Scripts:
- 
-local function RLUGNW_fake_script() -- TextButton.LocalScript 
-	local script = Instance.new('LocalScript', TextButton)
- 
+
+local function IQTSY_fake_script() -- toggle.LocalScript 
+	local script = Instance.new('LocalScript', toggle)
+
 	local state = true
 	script.Parent.MouseButton1Down:Connect(function()
+		print"By Space#0234"
 		state = not state
 		if not state then
 			script.Parent.Text = "off"
-print("off")
+			
+			for i, v in pairs(script.Parent.Parent.Parent:GetChildren()) do
+				if v:IsA("TextButton") then 
+					
+			
 
- if configs.main.enabled == true then
+					
+					v.Visible = false
+					v.TextLabel.Visible = false
+				end
+			end
+
+
+if configs.main.enabled == true then
             configs.main.enabled = false
             if configs.main.notifications == true then
                 Plr = FindClosestUser()
@@ -207,42 +229,39 @@ print("off")
                     Title = "Mhal x Sins",
                     Text = "Unlocked:"
                 })
-            end
 
+end
+
+		else
+			script.Parent.Text = "on"
+		
 			for i, v in pairs(script.Parent.Parent.Parent:GetChildren()) do
 				if v:IsA("TextButton") then 
-					--script:
- 
-					 					v.Visible = false
-					v.TextLabel.Visible = false
+					
+					v.Visible = true
+					v.TextLabel.Visible = true
+
+
+
+
 				end
 			end
-		else
-			script.Parent.Text = "On"
 
-print("on")
-
- Plr = FindClosestUser()
+Plr = FindClosestUser()
             configs.main.enabled = true
             if configs.main.notifications == true then
                 game.StarterGui:SetCore("SendNotification", {
                     Title = "Mhal x Sins",
                     Text = "Locked On:  " .. tostring(Plr.Character.Humanoid.DisplayName)
                 })
-            end
-
-			for i, v in pairs(script.Parent.Parent.Parent:GetChildren()) do
-				if v:IsA("TextButton") then 
-				--script:
-
-					v.Visible = true
-					v.TextLabel.Visible = true
-				end
-			end
+end
 		end
-		
+	end
+	
+	end)
 end
+coroutine.wrap(IQTSY_fake_script)()
 
-end)
-end
-coroutine.wrap(RLUGNW_fake_script)()
+
+
+
