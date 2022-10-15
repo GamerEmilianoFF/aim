@@ -2,7 +2,7 @@
 local Settings = {
     AimLock = {
         Enabled = true,
-        Aimlockkey = "t",
+        Aimlockkey = "q",
         Prediction = 0.3778710929171,
 --   Prediction = 0.3778710929171, very god
 
