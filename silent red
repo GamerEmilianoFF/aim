@@ -1,9 +1,22 @@
 
+--   Prediction = 0.3778710929171,antes de hallo
+
+--   Prediction = 0.3778710929171, very god
+
+
+
+
+
+
+
+
+
+
 local Settings = {
     AimLock = {
         Enabled = true,
         Aimlockkey = "q",
-        Prediction = 0.3778710929171,
+        Prediction = 0.3798760929171,
 --   Prediction = 0.3778710929171, very god
 
 
