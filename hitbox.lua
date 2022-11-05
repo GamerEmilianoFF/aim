@@ -120,13 +120,6 @@ function FindClosestPlayer()
 end
 
 
---[[
-RunService.Heartbeat:connect(function()
-    if Settings.AimLock.Enabled == true then
-        local Vector = CurrentCamera:WorldToViewportPoint(Plr.Character[Settings.AimLock.Aimpart].Position +
-                                                              (Plr.Character[Settings.AimLock.Aimpart].Velocity *
-                                                              Settings.AimLock.Prediction))
-]]--
 
 
 
@@ -208,7 +201,7 @@ script.Parent.MouseButton1Down:Connect(function()
 	print"By Space#0234"
 	state = not state
 	if not state then
-		script.Parent.Text = "on"
+		script.Parent.Text = "off"
 
 		for i, v in pairs(script.Parent.Parent.Parent:GetChildren()) do
 			if v:IsA("TextButton") then 
@@ -234,7 +227,7 @@ Settings.AimLock.Enabled = false
 
 
 	else
-		script.Parent.Text = "off"
+		script.Parent.Text = "on"
 		--script
 		for i, v in pairs(script.Parent.Parent.Parent:GetChildren()) do
 			if v:IsA("TextButton") then 
