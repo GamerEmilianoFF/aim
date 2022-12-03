@@ -75,37 +75,37 @@ local BOX = game:GetService("Workspace").Box
 if  getgenv().hitbox_AutoSize == true then
 
 if  getgenv().hitbox_Aimpart == 'Head' then
-	 placemarker.Size = Vector3.new(2,2,2) 
+	 BOX.Size = Vector3.new(2,2,2) 
 end
 	 else
 	 if  getgenv().hitbox_AutoSize == true then
 
 if  getgenv().hitbox_Aimpart == 'UpperTorso' then
-	 placemarker.Size = Vector3.new(1, 1.4, 1.4) 
+	 BOX.Size = Vector3.new(1, 1.4, 1.4) 
 end
      else
 	 if  getgenv().hitbox_AutoSize == true then
 
 if  getgenv().hitbox_Aimpart == 'LowerTorso' then
-	 placemarker.Size = Vector3.new(1.5,1,1.4) 
+	 BOX.Size = Vector3.new(1.5,1,1.4) 
 end
 	 else
 	 if  getgenv().hitbox_AutoSize == true then
 
 if  getgenv().hitbox_Aimpart == 'LeftUpperArm' then
-	 placemarker.Size = Vector3.new(1,1.5,1)
+	 BOX.Size = Vector3.new(1,1.5,1)
 end 
 	 else
 	 if  getgenv().hitbox_AutoSize == true then
 
 if  getgenv().hitbox_Aimpart == 'RightUpperArm' then
-	 placemarker.Size = Vector3.new(1,1.5,1)
+	 BOX.Size = Vector3.new(1,1.5,1)
 end
 	else
 		 if  getgenv().hitbox_AutoSize == true then
 
 	if  getgenv().hitbox_Aimpart == 'HumanoidRootPart' then
-    placemarker.Size = Vector3.new(8,8,8)
+    BOX.Size = Vector3.new(8,8,8)
 end
 		 end
 
@@ -118,7 +118,7 @@ end
 
 
 if  getgenv().hitbox_AutoSize == false then
-    placemarker.Size = Vector3.new(8,8,8)
+    BOX.Size = Vector3.new(8,8,8)
 end
 
 local Plr = game.Players.LocalPlayer
