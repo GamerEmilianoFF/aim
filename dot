@@ -2,6 +2,8 @@
 getgenv().hitbox_L_PRE = 0.229
 getgenv().hitbox_L_KEY = "q"
 getgenv().hitbox_L_COLOR = Color3.fromRGB(255, 255, 255)
+getgenv().hitbox_L_Aimpart = "HumanoidRootPart"
+
 
 local CC = game:GetService"Workspace".CurrentCamera
 local Plr
@@ -31,9 +33,9 @@ local data = game.Players:GetPlayers()
 function noob(player)
     local character
     repeat wait() until player.Character
-    local handler = makemarker(guimain, player.Character:WaitForChild("HumanoidRootPart"), Color3.fromRGB(107, 184, 255), 0.3, 3)
+    local handler = makemarker(guimain, player.Character[getgenv().hitbox_L_Aimpart], Color3.fromRGB(107, 184, 255), 0.3, 3)
     handler.Name = player.Name
-    player.CharacterAdded:connect(function(Char) handler.Adornee = Char:WaitForChild("HumanoidRootPart") end)
+    player.CharacterAdded:connect(function(Char) handler.Adornee = Char[getgenv().hitbox_L_Aimpart]end)
 
 
     spawn(function()
@@ -106,8 +108,8 @@ function getClosestPlayerToCursor()
 end
 
 game:GetService"RunService".Stepped:connect(function()
-    if enabled and Plr.Character and Plr.Character:FindFirstChild("HumanoidRootPart") then
-        placemarker.CFrame = CFrame.new(Plr.Character.HumanoidRootPart.Position+(Plr.Character.HumanoidRootPart.Velocity* getgenv().hitbox_L_PRE))
+    if enabled and Plr.Character and Plr.Character[getgenv().hitbox_L_Aimpart] then
+        placemarker.CFrame = CFrame.new(Plr.Character[getgenv().hitbox_L_Aimpart].Position+(Plr.Character[getgenv().hitbox_L_Aimpart].Velocity* getgenv().hitbox_L_PRE))
     else
         placemarker.CFrame = CFrame.new(0, 9999, 0)
     end
@@ -119,7 +121,7 @@ setreadonly(mt, false)
 mt.__namecall = newcclosure(function(...)
     local args = {...}
     if enabled and getnamecallmethod() == "FireServer" and args[2] == "MousePos" then
-        args[3] = Plr.Character.HumanoidRootPart.Position+(Plr.Character.HumanoidRootPart.Velocity* getgenv().hitbox_L_PRE)
+        args[3] = Plr.Character[getgenv().hitbox_L_Aimpart].Position+(Plr.Character[getgenv().hitbox_L_Aimpart].Velocity* getgenv().hitbox_L_PRE)
         return old(unpack(args))
     end
     return old(...)
@@ -209,6 +211,5 @@ end)
 
 UICorner_2.CornerRadius = UDim.new(0, 15)
 UICorner_2.Parent = TextButtonxd
-
 
 
