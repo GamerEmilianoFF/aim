@@ -3,7 +3,6 @@ getgenv().hitbox_Enabled = true
         getgenv().hitbox_Prediction = 0.37764398
         getgenv().hitbox_Aimpart = 'HumanoidRootPart'
         getgenv().hitbox_Notifications = true
-        getgenv().hitbox_AutoSize = false
 
 
 local CurrentCamera = game:GetService("Workspace").CurrentCamera
@@ -14,7 +13,8 @@ local Mouse = game.Players.LocalPlayer:GetMouse()
 local LocalPlayer = game.Players.LocalPlayer
 
       local placemarker = Instance.new("Part", game.Workspace)
-placemarker.Name = "Box"
+placemarker.Name = "Hit"
+placemarker.Size = Vector3.new(8,8,8)
 
     function makemarker(Parent, Adornee, Color, Size, Size2)
         local e = Instance.new("BillboardGui", Parent)
@@ -24,7 +24,7 @@ placemarker.Name = "Box"
         e.AlwaysOnTop = true
         local a = Instance.new("Frame", e)
         a.Size = UDim2.new(2, 0, 2, 0)
-        a.BackgroundTransparency = 5
+        a.BackgroundTransparency = 0
         a.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
         local g = Instance.new("UICorner", a)
         g.CornerRadius = UDim.new(50, 50)
@@ -63,63 +63,11 @@ placemarker.Name = "Box"
     spawn(function()
         placemarker.Anchored = true
         placemarker.CanCollide = false
-		placemarker.Color = Color3.fromRGB(255, 0, 0)
+		placemarker.Color = Color3.fromRGB(255, 255, 255)
         placemarker.Transparency = 0.60
-        makemarker(placemarker, placemarker, Color3.fromRGB(255, 0, 0), 0.40, 0)
+        makemarker(placemarker, placemarker, Color3.fromRGB(255, 255, 255), 0.40, 0)
     end)    
 
-
-
-local BOX = game:GetService("Workspace").Box
-
-if  getgenv().hitbox_AutoSize == true then
-
-if  getgenv().hitbox_Aimpart == 'Head' then
-	 BOX.Size = Vector3.new(2,2,2) 
-end
-	 else
-	 if  getgenv().hitbox_AutoSize == true then
-
-if  getgenv().hitbox_Aimpart == 'UpperTorso' then
-	 BOX.Size = Vector3.new(1, 1.4, 1.4) 
-end
-     else
-	 if  getgenv().hitbox_AutoSize == true then
-
-if  getgenv().hitbox_Aimpart == 'LowerTorso' then
-	 BOX.Size = Vector3.new(1.5,1,1.4) 
-end
-	 else
-	 if  getgenv().hitbox_AutoSize == true then
-
-if  getgenv().hitbox_Aimpart == 'LeftUpperArm' then
-	 BOX.Size = Vector3.new(1,1.5,1)
-end 
-	 else
-	 if  getgenv().hitbox_AutoSize == true then
-
-if  getgenv().hitbox_Aimpart == 'RightUpperArm' then
-	 BOX.Size = Vector3.new(1,1.5,1)
-end
-	else
-		 if  getgenv().hitbox_AutoSize == true then
-
-	if  getgenv().hitbox_Aimpart == 'HumanoidRootPart' then
-    BOX.Size = Vector3.new(8,8,8)
-end
-		 end
-
-
-end
-end
-end
-end
-end
-
-
-if  getgenv().hitbox_AutoSize == false then
-    BOX.Size = Vector3.new(8,8,8)
-end
 
 local Plr = game.Players.LocalPlayer
 
@@ -237,7 +185,7 @@ TextButtonxd.BackgroundTransparency = 0.560
 TextButtonxd.Position = UDim2.new(0.121813267, 0, 0.170098543, 0)
 TextButtonxd.Size = UDim2.new(0, 93, 0, 41)
 TextButtonxd.Font = Enum.Font.SourceSans
-TextButtonxd.Text = "Box Lock"
+TextButtonxd.Text = "Hit Lock"
 TextButtonxd.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextButtonxd.TextScaled = true
 TextButtonxd.TextSize = 14.000
@@ -307,5 +255,4 @@ end)
 
 UICorner_2.CornerRadius = UDim.new(0, 15)
 UICorner_2.Parent = TextButtonxd
-
 
