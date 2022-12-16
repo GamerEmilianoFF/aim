@@ -1,0 +1,215 @@
+local RService = game:GetService('RunService')
+
+--// Color //--
+getgenv().BoxLock_Color_Line = Color3.fromRGB(0, 255, 238)
+getgenv().BoxLock_Color_Dentro = Color3.fromRGB(0, 255, 238)
+getgenv().BoxLock_Color_Tracer = Color3.fromRGB(0, 255, 238)
+
+
+--// Settings //--
+
+getgenv().BoxLock_Key = 'q'
+getgenv().BoxLock_AimPart = 'HumanoidRootPart'
+getgenv().BoxLock_Prediction = 0.389
+
+
+
+
+local Settings = {
+    BoxLock = {
+        Enabled = true,
+        BoxLockkey = 'e',
+        PingAutoPrediction = false,
+        Aimpart = 'Head',
+        HitboxExtender = false,
+        Highlight = true, --caja
+        Tracers = true,
+        Notifications = true
+    },
+    Settings = {
+        Thickness = 5,
+        Transparency = 1,
+        Color = Color3.fromRGB(0, 255, 238), --line
+		Color_Linea = Color3.fromRGB(0, 255, 238),
+		Color_Dentro = Color3.fromRGB(0, 255, 238),
+        FOV = false
+    }
+}
+
+--        Color = Color3.fromRGB(0, 255, 238), --line
+
+
+_G.Types = {
+    Ball = Enum.PartType.Ball,
+    Block = Enum.PartType.Block,
+    Cylinder = Enum.PartType.Cylinder
+}
+
+
+local PlaceBox = Instance.new("Part", game.Workspace)
+PlaceBox.Shape = _G.Types.Block
+PlaceBox.Material = "Neon"
+PlaceBox.Color = Color3.fromRGB(0, 0, 0)
+--PlaceBox.Color = Color3.fromRGB(0, 255, 238)
+
+spawn(
+    function()
+        PlaceBox.Anchored = true
+        PlaceBox.CanCollide = false
+        PlaceBox.Size = Vector3.new(11, 11, 11)
+        PlaceBox.Transparency = 0.8
+    end
+)
+
+local TargetHL = Instance.new("Highlight")
+local ClientHL = Instance.new("Highlight")
+local CurrentCamera = game:GetService('Workspace').CurrentCamera
+local Inset = game:GetService('GuiService'):GetGuiInset().Y
+local Mouse = game.Players.LocalPlayer:GetMouse()
+local LocalPlayer = game.Players.LocalPlayer
+local Line = Drawing.new('Line')
+local Circle = Drawing.new('Circle')
+local AimbotTarget
+local Plr = game.Players.LocalPlayer
+
+
+Mouse.KeyDown:Connect(function(KeyPressed)
+    if KeyPressed == (getgenv().BoxLock_Key) then
+        if Settings.BoxLock.Enabled == true then
+            Settings.BoxLock.Enabled = false
+            if Settings.BoxLock.Notifications == true then
+                AimbotTarget = FindClosestPlayer()
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "p",
+                    Text = "Unlocked"
+                })
+            end
+        else
+            AimbotTarget = FindClosestPlayer()
+            Settings.BoxLock.Enabled = true
+            if Settings.BoxLock.Notifications == true then
+                 game.StarterGui:SetCore("SendNotification", {
+                    Title = "p",
+                    Text = "Locked On :  " .. tostring(AimbotTarget.Name)
+                })
+            end
+        end
+    end
+end)
+
+
+
+
+function FindClosestPlayer()
+    local ClosestDistance, ClosestPlayer = math.huge, nil;
+    for _, Player in next, game:GetService("Players"):GetPlayers() do
+        if Player ~= LocalPlayer then
+            local Character = Player.Character
+            if Character and Character.Humanoid.Health > 1 then 
+                local Position, IsVisibleOnViewPort = CurrentCamera:WorldToViewportPoint(Character.HumanoidRootPart
+                                                                                             .Position)
+                if IsVisibleOnViewPort then
+                    local Distance = (Vector2.new(Mouse.X, Mouse.Y) - Vector2.new(Position.X, Position.Y)).Magnitude
+                    if Distance < ClosestDistance then
+                        ClosestPlayer = Player
+                        ClosestDistance = Distance
+                    end
+                end
+            end
+        end
+    end
+    return ClosestPlayer, ClosestDistance
+end
+
+
+
+
+
+
+RService.Heartbeat:connect(function()
+    if Settings.BoxLock.Enabled == true and AimbotTarget ~= nil then
+        local Vector = CurrentCamera:WorldToViewportPoint(AimbotTarget.Character[getgenv().BoxLock_AimPart].Position)
+        local PredictedVector = CurrentCamera:WorldToViewportPoint(AimbotTarget.Character[getgenv().BoxLock_AimPart].Position + (AimbotTarget.Character[getgenv().BoxLock_AimPart].Velocity * getgenv().BoxLock_Prediction))
+     
+	    Line.Color = getgenv().BoxLock_Color_Tracer          --Settings.Settings.Color
+        Line.Transparency = Settings.Settings.Transparency
+        Line.Thickness = Settings.Settings.Thickness
+        Line.From = Vector2.new(CurrentCamera:WorldToViewportPoint(game.Players.LocalPlayer.Character.HumanoidRootPart.Position).X, CurrentCamera:WorldToViewportPoint(game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Y)
+        Line.To = Vector2.new(Vector.X, Vector.Y)
+        Line.Visible = true
+        Circle.Position = Vector2.new(PredictedVector.X, PredictedVector.Y)
+        Circle.Visible = true
+        Circle.Thickness = 1.5
+        Circle.Radius = 7.5
+        Circle.Filled = true
+        Circle.Color = Settings.Settings.Color
+    elseif Settings.BoxLock.FOV == true then
+        Circle.Visible = true
+    else
+        Circle.Visible = false
+        Line.Visible = false
+        TargetHL.Parent = game.CoreGui
+        ClientHL.Parent = game.CoreGui
+        PlaceBox.CFrame = CFrame.new(0, 9999, 0)
+    end
+end)
+RService.Heartbeat:connect(function()
+    if Settings.BoxLock.Enabled == true and AimbotTarget ~= nil then
+    if Settings.BoxLock.HitboxExtender == true then
+        PlaceBox.CFrame = CFrame.new(AimbotTarget.Character[getgenv().BoxLock_AimPart.Position] + (AimbotTarget.Character[getgenv().BoxLock_AimPart].Velocity * getgenv().BoxLock_Prediction))
+        elseif Settings.BoxLock.HitboxExtender == false then
+            PlaceBox.CFrame = CFrame.new(0, 9999, 0)
+        end
+    end
+end)
+
+RService.Heartbeat:connect(function()
+    if Settings.BoxLock.Enabled == true and AimbotTarget ~= nil then
+    if Settings.BoxLock.Tracers == true then
+        Settings.Settings.Transparency = 1
+        elseif Settings.BoxLock.Tracers == false then
+            Settings.Settings.Transparency = 0
+        end
+    end
+end)
+
+RService.Heartbeat:connect(function()
+    if Settings.BoxLock.Enabled == true and AimbotTarget ~= nil then
+    if Settings.BoxLock.Highlight == true then
+        TargetHL.Parent = AimbotTarget.Character
+    
+	    TargetHL.FillColor =       getgenv().BoxLock_Color_Line                                      -- Settings.Settings.Color_Dentro --fuera
+        TargetHL.OutlineColor =   getgenv().BoxLock_Color_Dentro                                       -- Settings.Settings.Color_Linea --linea 
+
+
+        ClientHL.Parent = Client.Character
+        ClientHL.OutlineColor =  Color3.fromRGB(255, 0, 0)
+        ClientHL.FillColor = Color3.fromRGB(255, 0, 0)         -- ClientHL.FillColor = Settings.Settings.Color
+        elseif Settings.BoxLock.Highlight == false then
+            TargetHL.Parent = game.CoreGui
+            ClientHL.Parent = game.CoreGui
+        end
+    end
+end)
+
+
+
+
+	local MetaTable = getrawmetatable(game)
+	local Method = getnamecallmethod()
+	local Old = MetaTable.__namecall
+	setreadonly(MetaTable, false)
+	MetaTable.__namecall = newcclosure(function(...)
+		local args = {...}
+		if Settings.BoxLock.Enabled and getnamecallmethod() == 'FireServer' and args[2] == 'MousePos' then
+			if AimbotTarget.Character.Humanoid.Jump == true and AimbotTarget.Character.Humanoid.FloorMaterial == Enum.Material.Air
+				then
+					args[3] = AimbotTarget.Character["LeftUpperLeg"].Position + (AimbotTarget.Character["LeftUpperLeg"].Velocity * getgenv().BoxLock_Prediction().Prediction)
+					return Old(unpack(args))
+				else
+					args[3] = AimbotTarget.Character[getgenv().BoxLock_AimPart].Position + (AimbotTarget.Character[getgenv().BoxLock_AimPart].Velocity * getgenv().BoxLock_Prediction)
+					return Old(unpack(args))
+				end
+		end
+		return Old(...)
+	end)
